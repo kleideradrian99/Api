@@ -6,6 +6,6 @@ const { getItems, getItem, createItem } = require("../controllers/tracks");
 
 router.get("/", getItems);
 
-router.post("/", validatorCrateItem, customHeader, createItem);
+router.post("/", validatorCrateItem, createItem);
 
 module.exports = router

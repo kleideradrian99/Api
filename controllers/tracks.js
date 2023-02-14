@@ -1,16 +1,26 @@
+const { matchedData } = require('express-validator');
 const { tracksModel } = require('../models');
+const { handleHtppError } = require('../utils/handleError');
 
 const getItems = async(req, res) => {
-    const data = await tracksModel.find({});
-    res.send({ data });
+    try {
+        const data = await tracksModel.find({});
+        res.send({ data });
+    } catch (error) {
+        handleHtppError(res, 'Error en getItems')
+    }
 }
 const getItem = (req, res) => {}
 
 const createItem = async(req, res) => {
-    const { body } = req;
-    console.log(body);
-    const data = await tracksModel.create(body);
-    res.send({ data })
+    try {
+        //Express Validator
+        const body = matchedData(req)
+        const data = await tracksModel.create(body);
+        res.send({ data })
+    } catch (error) {
+        handleHtppError(res, 'Error en createItem')
+    }
 }
 
 const updateItems = (req, res) => {}
