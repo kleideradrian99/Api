@@ -7,10 +7,20 @@ const getItems = async(req, res) => {
         const data = await tracksModel.find({});
         res.send({ data });
     } catch (error) {
-        handleHtppError(res, 'Error en getItems')
+        handleHtppError(res, 'ERROR_GET_ITEMS')
     }
 }
-const getItem = (req, res) => {}
+
+const getItem = async(req, res) => {
+    try {
+        req = matchedData(req);
+        const { id } = req
+        const data = await tracksModel.findById(id);
+        res.send({ data });
+    } catch (error) {
+        handleHtppError(res, "ERROR_GET_ITEM")
+    }
+}
 
 const createItem = async(req, res) => {
     try {
@@ -19,12 +29,33 @@ const createItem = async(req, res) => {
         const data = await tracksModel.create(body);
         res.send({ data })
     } catch (error) {
-        handleHtppError(res, 'Error en createItem')
+        handleHtppError(res, 'ERROR_CREATE_ITEM')
     }
 }
 
-const updateItems = (req, res) => {}
-const deleteItems = (req, res) => {}
+const updateItems = async(req, res) => {
+    try {
+        //Express Validator
+        const { id, ...body } = matchedData(req); //Separar Id de la info
+        const data = await tracksModel.findOneAndUpdate(
+            id, body
+        );
+        res.send({ data });
+    } catch (error) {
+        handleHtppError(res, 'ERROR_UPDATE_ITEM')
+    }
+}
+
+const deleteItems = async(req, res) => {
+    try {
+        req = matchedData(req);
+        const { id } = req
+        const data = await tracksModel.delete({ _id: id });
+        res.send({ data });
+    } catch (error) {
+        handleHtppError(res, "ERROR_DELETE_ITEM")
+    }
+}
 
 
 module.exports = {

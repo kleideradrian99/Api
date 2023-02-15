@@ -20,3 +20,4 @@ app.listen(port, () => {
 dbConnect()
 
 //correr node app.js
+//npm run dev
