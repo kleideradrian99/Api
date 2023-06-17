@@ -19,6 +19,9 @@ app.listen(port, () => {
 
 dbConnect()
 
+//1. npm i
+//2. npm i express
+//3. npm i cors dotenv multer -S
 //correr node app.js
 //npm run dev
 // ``
