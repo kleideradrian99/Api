@@ -4,11 +4,11 @@ const { usersModel } = require('../models')
 
 const authMiddleware = async (req, res, next) => {
     try {
-        if (!req.headers.autorization) {
+        if (!req.headers.authorization) {
             handleHtppError(res, "NOT_TOKEN", 401);
             return
         }
-        const token = req.headers.autorization.split(' ').pop();
+        const token = req.headers.authorization.split(' ').pop();
         const dataToken = await verifyToken(token);
 
         if (!dataToken._id) {
