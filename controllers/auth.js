@@ -1,21 +1,54 @@
-const { marchedData } = require("express-validator");
+const { matchedData } = require("express-validator");
 const { encrypt } = require("../utils/handlePassword");
 const { tokenSign } = require("../utils/handleJwt")
-const { usersModel } = require("../models")
+const { handleHtppError } = require("../utils/handleError")
+const { usersModel } = require("../models");
+const { compare } = require("bcryptjs");
 
-const loginCtrl = async(req, res) => {
-    req = matchedData(req);
-    const password = await encrypt(req.password);
-    const body = {...req, password };
-    const dataUser = await usersModel.create(body);
-    dataUser.set('password', undefined, { strict: false });
+//Este controlador es el encargado de registrar un usuario
+const registerCtrl = async (req, res) => {
+    try {
+        req = matchedData(req);
+        const password = await encrypt(req.password);
+        const body = { ...req, password };
+        const dataUser = await usersModel.create(body);
+        dataUser.set('password', undefined, { strict: false });
 
-    const data = {
-        token: await tokenSign(dataUser),
-        user: dataUser
+        const data = {
+            token: await tokenSign(dataUser),
+            user: dataUser
+        }
+    } catch (error) {
+        handleHtppError(res, "ERROR_REGISTER_USER")
     }
 
     res.send({ data });
 }
+//Este controlador es el encargado de login
+const loginCtrl = async (req, res) => {
+    try {
+        req = matchedData(req);//Cura la data para que solo llegue el email y password
+        const user = await usersModel.findOne({ email: req.email }).select('password name role email');
+        if (!user) {
+            handleHtppError(res, "ERROR_NO_EXIST_USER", 404);
+            return
+        }
+        const hashPassword = user.get('password');
 
-module.exports = { loginCtrl }
+        const check = await compare(req.password, hashPassword);//Retorna True or False
+        if (!check) {
+            handleHtppError(res, "PASSWORD_INVALID", 401);
+            return
+        }
+        user.set('password', undefined, { strict: false });
+        const data = {
+            token: await tokenSign(user),
+            user
+        }
+        res.send({ data })
+    } catch (error) {
+        handleHtppError(res, "ERROR_LOGIN_USER");
+    }
+}
+
+module.exports = { registerCtrl, loginCtrl }
