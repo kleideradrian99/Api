@@ -32,7 +32,7 @@ app.listen(port, () => {
 //npm i morgan-body -S
 //npm i @slack/webhook
 (ENGINE_DB === 'nosql') ? dbConnect() : dbConnectMysql();
-//SLACK_WEBHOOK=https://hooks.slack.com/services/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
+
 //sMYSQL_DATABASE=cursonode
 //MYSQL_USER=root
 //MYSQL_PASSWORD=
@@ -45,3 +45,4 @@ app.listen(port, () => {
 //correr node app.js
 //npm run dev
 // ``
+//SLACK_WEBHOOK=https://hooks.slack.com/services/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
