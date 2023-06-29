@@ -1,11 +1,13 @@
 const bcryptjs = require("bcryptjs")
 
-const encrypt = async(passwordPlain) => {
+//Contrasena sin encriptar
+const encrypt = async (passwordPlain) => {
     const hash = await bcryptjs.hash(passwordPlain, 10); // Encriptar
     return hash;
 };
 
-const compare = async(passwordPlain, hashPassword) => {
+//Pasamos la contrase sin encriptar y la encriptada
+const compare = async (passwordPlain, hashPassword) => { //Agarramos el hash para saber si es la clave
     return await bcryptjs.compare(passwordPlain, hashPassword);
 }
 
