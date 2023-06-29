@@ -2,9 +2,11 @@ require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
 const dbConnect = require('./config/mongo')
+const { dbConnectMysql } = require("./config/mysql")
 const morganBody = require("morgan-body")
 const loggerStream = require("./utils/handleLoger")
 const app = express()
+const ENGINE_DB = process.env.ENGINE_DB;
 
 app.use(cors())
 app.use(express.json())
@@ -24,12 +26,18 @@ app.use("/api", require("./routes"))
 
 app.listen(port, () => {
     console.log('Tu app esta lista port: ' + port)
-})
+});
+//Sequelize
 //SLACK
 //npm i morgan-body -S
 //npm i @slack/webhook
-dbConnect();
+(ENGINE_DB === 'nosql') ? dbConnect() : dbConnectMysql();
 
+//sMYSQL_DATABASE=cursonode
+//MYSQL_USER=root
+//MYSQL_PASSWORD=
+//MYSQL_HOST=localhost
+//ENGINE_DB=mysql
 //1. npm i
 //2. npm i express
 //3. npm i cors dotenv multer -S
