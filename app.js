@@ -22,6 +22,7 @@ dbConnect()
 //1. npm i
 //2. npm i express
 //3. npm i cors dotenv multer -S
+//4. npm i nodemon -g
 //correr node app.js
 //npm run dev
 // ``
