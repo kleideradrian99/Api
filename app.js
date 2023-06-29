@@ -33,11 +33,12 @@ app.listen(port, () => {
 //npm i @slack/webhook
 (ENGINE_DB === 'nosql') ? dbConnect() : dbConnectMysql();
 
-//sMYSQL_DATABASE=cursonode
+//MYSQL_DATABASE=cursonode
 //MYSQL_USER=root
 //MYSQL_PASSWORD=
 //MYSQL_HOST=localhost
 //ENGINE_DB=mysql
+
 //1. npm i
 //2. npm i express
 //3. npm i cors dotenv multer -S
