@@ -1,6 +1,8 @@
 const { handleHtppError } = require("../utils/handleError")
 const { verifyToken } = require('../utils/handleJwt')
 const { usersModel } = require('../models')
+const getProperties = require("../utils/handlePropertiesEngine");
+const propertieskey = getProperties()
 
 const authMiddleware = async (req, res, next) => {
     try {
@@ -11,12 +13,16 @@ const authMiddleware = async (req, res, next) => {
         const token = req.headers.authorization.split(' ').pop();
         const dataToken = await verifyToken(token);
 
-        if (!dataToken._id) {
-            handleHtppError(res, "NOT_ID_TOKEN", 401);
+        if (!dataToken) {
+            handleHtppError(res, "NOT_PAYLOAD_DATA", 401);
             return
         }
 
-        const user = await usersModel.findById(dataToken._id);
+        const query = {
+            [propertieskey.id]: dataToken[propertieskey.id]
+        }
+
+        const user = await usersModel.findOne(query);
         req.user = user
         next();
     } catch (error) {

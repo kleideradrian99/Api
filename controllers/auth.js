@@ -12,18 +12,20 @@ const registerCtrl = async (req, res) => {
         const password = await encrypt(req.password);
         const body = { ...req, password };
         const dataUser = await usersModel.create(body);
-        dataUser.set('password', undefined, { strict: false });
+        dataUser.set("password", undefined, { strict: false });
 
         const data = {
             token: await tokenSign(dataUser),
-            user: dataUser
-        }
-    } catch (error) {
-        handleHtppError(res, "ERROR_REGISTER_USER")
+            user: dataUser,
+        };
+        res.status(201)
+        res.send({ data });
+    } catch (e) {
+        console.log(e)
+        handleHttpError(res, "ERROR_REGISTER_USER")
     }
+};
 
-    res.send({ data });
-}
 //Este controlador es el encargado de login
 const loginCtrl = async (req, res) => {
     try {

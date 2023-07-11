@@ -27,12 +27,13 @@ app.use("/api", require("./routes"))
 app.listen(port, () => {
     console.log('Tu app esta lista port: ' + port)
 });
+
+(ENGINE_DB === 'nosql') ? dbConnect() : dbConnectMysql();
+
 //Sequelize
 //SLACK
 //npm i morgan-body -S
 //npm i @slack/webhook
-(ENGINE_DB === 'nosql') ? dbConnect() : dbConnectMysql();
-
 //sMYSQL_DATABASE=cursonode
 //MYSQL_USER=root
 //MYSQL_PASSWORD=

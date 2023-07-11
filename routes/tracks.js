@@ -12,7 +12,7 @@ router.get("/:id", authMiddleware, validatorGetItem, getItem);
 // Actualizar item
 router.put("/:id", authMiddleware, validatorCreateItem, validatorGetItem, updateItems);
 // Crea un registro
-router.post("/", authMiddleware, checkRol(["admin"]), validatorCreateItem, createItem);
+router.post("/", authMiddleware, checkRol(["user", "admin"]), validatorCreateItem, createItem);
 // Elimitar un registro
 router.post("/:id", authMiddleware, validatorGetItem, deleteItems);
 
