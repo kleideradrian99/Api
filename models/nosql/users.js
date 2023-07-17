@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     name: { type: String },
     age: { type: Number },
     email: { type: String, unique: true },
-    password: { type: String, select: false }, //select para que no se retorne nunca
+    password: { type: String, select: true }, //select para que no se retorne nunca
     role: { type: ["user", "admin"], default: "user" }
 }, {
     timestamps: true, //Todo createdAt, UpdatedAt

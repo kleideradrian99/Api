@@ -30,12 +30,14 @@ const registerCtrl = async (req, res) => {
 const loginCtrl = async (req, res) => {
     try {
         req = matchedData(req);//Cura la data para que solo llegue el email y password
-        const user = await usersModel.findOne({ email: req.email }).select('password name role email');
+        const user = await usersModel.findOne({ email: req.email });
         if (!user) {
             handleHtppError(res, "ERROR_NO_EXIST_USER", 404);
             return
         }
+        
         const hashPassword = user.get('password');
+        console.log("User",user)
 
         const check = await compare(req.password, hashPassword);//Retorna True or False
         if (!check) {
