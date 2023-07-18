@@ -7,6 +7,8 @@ const morganBody = require("morgan-body")
 const loggerStream = require("./utils/handleLoger")
 const app = express()
 const ENGINE_DB = process.env.ENGINE_DB;
+const swaggerUI = require("swagger-ui-express")
+const openApiConfigration = require("./docs/swagger")
 
 app.use(cors())
 app.use(express.json())
@@ -20,6 +22,11 @@ morganBody(app, {
     }
 })
 const port = process.env.port || 3000
+// Definir ruta de documentacion 
+app.use('/documentation',
+    swaggerUI.serve,
+    swaggerUI.setup(openApiConfigration)
+);
 
 // Invoco a las rutas
 app.use("/api", require("./routes"))
@@ -47,3 +54,5 @@ app.listen(port, () => {
 //npm run dev
 // ``
 //SLACK_WEBHOOK=https://hooks.slack.com/services/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
+//Documentacion swagger-ui-express = npm i swagger-ui-express 
+//swagger-jsdoc =npm i swagger-jsdoc

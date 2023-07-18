@@ -35,10 +35,7 @@ const loginCtrl = async (req, res) => {
             handleHtppError(res, "ERROR_NO_EXIST_USER", 404);
             return
         }
-        
         const hashPassword = user.get('password');
-        console.log("User",user)
-
         const check = await compare(req.password, hashPassword);//Retorna True or False
         if (!check) {
             handleHtppError(res, "PASSWORD_INVALID", 401);
