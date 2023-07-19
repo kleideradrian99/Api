@@ -1,0 +1,8 @@
+● Validation Error:
+
+  Module ./global-kill.js in the globalTeardown option was not found.
+         <rootDir> is: /Users/macbookpro/Documents/Estudio_K/Api
+
+  Configuration Documentation:
+  https://jestjs.io/docs/configuration
+

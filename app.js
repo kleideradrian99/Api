@@ -6,9 +6,11 @@ const { dbConnectMysql } = require("./config/mysql")
 const morganBody = require("morgan-body")
 const loggerStream = require("./utils/handleLoger")
 const app = express()
-const ENGINE_DB = process.env.ENGINE_DB;
 const swaggerUI = require("swagger-ui-express")
 const openApiConfigration = require("./docs/swagger")
+
+const ENGINE_DB = process.env.ENGINE_DB;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 app.use(cors())
 app.use(express.json())
@@ -29,13 +31,16 @@ app.use('/documentation',
 );
 
 // Invoco a las rutas
-app.use("/api", require("./routes"))
-
-app.listen(port, () => {
-    console.log('Tu app esta lista port: ' + port)
-});
+app.use("/api", require("./routes"));
+if (NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log('Tu app esta lista port: ' + port)
+    });
+}
 
 (ENGINE_DB === 'nosql') ? dbConnect() : dbConnectMysql();
+
+module.exports = app
 
 //Sequelize
 //SLACK
@@ -56,3 +61,5 @@ app.listen(port, () => {
 //SLACK_WEBHOOK=https://hooks.slack.com/services/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
 //Documentacion swagger-ui-express = npm i swagger-ui-express 
 //swagger-jsdoc =npm i swagger-jsdoc
+//npm o jest supertest = testing -D
+// npm i cross-env -D
